@@ -1,0 +1,21 @@
+// index.js
+require('dotenv').config();
+
+const port = process.env.PORT || 3000;
+// Use process.env.MONGO_URI, etc.
+
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send("Hello from Bhanu's Express API - Hello Sudharsan 🎯");
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', server: 'running' });
+});
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
+

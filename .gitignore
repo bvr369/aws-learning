@@ -1,0 +1,14 @@
+# Ignore files/folders recursively in the project
+**/node_modules/
+**/logs/
+**/*.log
+**/.env
+**/dist/
+**/build/
+**/pids/
+**/*.pid
+**/*.seed
+**/*.pid.lock
+**/dump.pm2
+**/.vscode/
+
