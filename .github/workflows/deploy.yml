@@ -26,7 +26,7 @@ jobs:
     - name: Deploy to EC2 via SSH
       run: |
         ssh -i ~/.ssh/deploy_key ec2-user@13.60.99.84 << 'EOF'
-          cd my-app/
+          cd myapp/
           git pull origin main
           pm2 restart all || cd express-api/ && npm install && pm2 start index.js --name app
         EOF
