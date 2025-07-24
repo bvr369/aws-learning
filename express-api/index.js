@@ -20,6 +20,11 @@ app.get("/api/greet", (req, res) => {
   res.json({ message: `Hello, ${name}!` });
 });
 
+app.get("/api/time", (req, res) => {
+  const currentTime = new Date().toISOString();
+  res.json({ time: currentTime });
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
