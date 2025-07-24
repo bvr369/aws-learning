@@ -3,26 +3,30 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - production   # Or your main branch name
+      - production
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ✅ Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: 🔐 Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
 
-      - name: 🚀 Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@13.60.99.84 << 'EOF'
-            cd /home/ec2-user/myapp/express-api
-            git pull origin main
-            npm install --production
-            pm2 restart all
-          EOF
+    - name: Add EC2 to known hosts
+      run: |
+        ssh-keyscan -H 13.60.99.84 >> ~/.ssh/known_hosts
+
+    - name: Deploy to EC2 via SSH
+      run: |
+        ssh -i ~/.ssh/deploy_key ec2-user@13.60.99.84 << 'EOF'
+          cd /home/ec2-user/my-app
+          git pull origin main
+          pm2 restart all || npm install && cd express-api/ pm2 start index.js --name app
+        EOF
