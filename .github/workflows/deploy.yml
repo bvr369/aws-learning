@@ -29,5 +29,6 @@ jobs:
           cd myapp/
           git pull origin main
           cd express-api/
-          pm2 restart all || npm install && pm2 start index.js --name index
+          npm install
+          pm2 restart all || pm2 start index.js --name index
         EOF
