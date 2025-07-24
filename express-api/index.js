@@ -15,6 +15,11 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', server: 'running' });
 });
 
+app.get("/api/greet", (req, res) => {
+  const name = req.query.name || "Guest";
+  res.json({ message: `Hello, ${name}!` });
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
